@@ -10,40 +10,30 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import api from "../../axios/api.ts";
-import { useNavigate } from "react-router-dom";
 
-export function RegisterForm({ className, ...props }: { className?: string }) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const navigate = useNavigate();
+interface RegisterFormProps {
+  email: string;
+  setEmail: (email: string) => void;
+  password: string;
+  setPassword: (password: string) => void;
+  confirmPassword: string;
+  setConfirmPassword: (confirmPassword: string) => void;
+  error: string | null;
+  handleSubmit: (e: React.FormEvent) => void;
+}
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    
-    if (password !== confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
-
-    try {
-      const response = await api.post("http://localhost:3000/register", {
-        email,
-        password,
-      });
-      console.log("Registration successful:", response.data);
-      localStorage.setItem("token", response.data.token);
-      navigate('/');
-    } catch (err: any) {
-      console.error("Registration failed:", err);
-      setError(err.response?.data?.message || "Registration failed");
-    }
-  };
-
+export function RegisterForm({
+  email,
+  setEmail,
+  password,
+  setPassword,
+  confirmPassword,
+  setConfirmPassword,
+  error,
+  handleSubmit,
+  className,
+  ...props
+}: RegisterFormProps & { className?: string }) {
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
@@ -90,7 +80,7 @@ export function RegisterForm({ className, ...props }: { className?: string }) {
                 Create Account
               </Button>
               <div className="text-center text-sm">
-                Have an account? {" "}
+                Have an account?{" "}
                 <Link to="/login" className="underline underline-offset-4">
                   Login
                 </Link>
@@ -100,7 +90,8 @@ export function RegisterForm({ className, ...props }: { className?: string }) {
         </CardContent>
       </Card>
       <div className="text-muted-foreground text-center text-xs">
-        By clicking continue, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+        By clicking continue, you agree to our{" "}
+        <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
       </div>
     </div>
   );

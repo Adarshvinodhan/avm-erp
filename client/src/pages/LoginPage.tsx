@@ -1,8 +1,38 @@
-import { GalleryVerticalEnd } from "lucide-react"
-
-import { LoginForm } from "@/components/forms/LoginForm"
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { GalleryVerticalEnd } from "lucide-react";
+import { LoginForm } from "@/components/forms/LoginForm";
+import api from "../axios/api.ts";
+import {toast} from "sonner"
 
 export default function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    try {
+      const response = await api.post("/login", { email, password });
+      localStorage.setItem("token", response.data.token);
+      toast.success("Login successful",{
+        duration:1500,
+        style: {
+          background: "white", 
+          color: "black",
+        },
+      });
+      setTimeout(() => {
+        navigate("/");
+      },2000);
+    } catch (err: any) {
+      console.error("Login failed:", err);
+      setError(err.response?.data?.message || "Login failed");
+    }
+  };
+
   return (
     <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-4">
       <div className="flex w-full max-w-sm flex-col gap-6">
@@ -12,8 +42,16 @@ export default function LoginPage() {
           </div>
           Acme Inc.
         </a>
-        <LoginForm />
+        {/* Pass props to LoginForm */}
+        <LoginForm
+          email={email}
+          password={password}
+          setEmail={setEmail}
+          setPassword={setPassword}
+          error={error}
+          handleSubmit={handleSubmit}
+        />
       </div>
     </div>
-  )
+  );
 }
