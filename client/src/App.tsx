@@ -3,6 +3,7 @@ import AuthRoutes from "./routes/AuthRoutes";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import Dashboard from "./layout/Dashboard";
+import { HomePage } from "./pages/HomePage";
 
 function App() {
     return (
@@ -14,7 +15,7 @@ function App() {
                 <Route element={<Dashboard />}>
                     <Route element={<AuthRoutes />}>
 
-                        <Route path="/" element={<h1>Home</h1>} />
+                        <Route path="/" element={<HomePage/>} />
 
                     </Route>
                 </Route>
