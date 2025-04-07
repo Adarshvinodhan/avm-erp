@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GalleryVerticalEnd } from "lucide-react";
 import { LoginForm } from "@/components/forms/LoginForm";
-import api from "../axios/api.ts";
+import api from "../api.ts";
 import { toast } from "sonner";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/redux/slices/AuthSlice.tsx";

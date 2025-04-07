@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { GalleryVerticalEnd } from "lucide-react";
-import api from "../axios/api.ts";
+import api from "../api.ts";
 import { RegisterForm } from "@/components/forms/RegisterForm";
 import {toast} from 'sonner'
 import { useDispatch } from "react-redux";
