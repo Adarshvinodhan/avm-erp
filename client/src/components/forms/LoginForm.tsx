@@ -45,6 +45,7 @@ export function LoginForm({
                 <Label htmlFor="username">Username</Label>
                 <Input
                   id="username"
+                  autoComplete = "username"
                   type="text"
                   placeholder="Enter your username"
                   value={username}
@@ -62,12 +63,13 @@ export function LoginForm({
                 <Input
                   id="password"
                   type="password"
+                  placeholder = "***********"
+                  autoComplete = "current-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
               </div>
-              {error && <p className="text-red-500 text-sm">{error}</p>}
               <Button type="submit" className="w-full">
                 Login
               </Button>

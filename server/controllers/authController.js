@@ -41,36 +41,36 @@ const registerUser = async(req,res)=>{
 
 //Login User
 
-const loginUser = async(req,res)=>{
-    try{
-        const {username,password} = req.body;
-        const user = await User.findOne({username})
-        if(!user){
-            res.status(404).json({
-                message:"username not found"
-            })
-            const pass = await bcrypt.compare(password,user.password);
-            if(!pass){
-                res.status(404).json({
-                    message:"password wrong"
-                })
-            }
-        }
-        else{
-            const token = jwt.sign({id:user._id,username:user.username},process.env.SECRET_KEY)
-            res.status(200).json({
-                message:"login Successfull",
-                user:{username,email:user.email},
-                token:token
-            })
-        }
-    }
-    catch(e){
-        console.log(e)
-        res.status(500).json({
-            message:"Login failed Try again"
-        })
-    }
-}
+const loginUser = async (req, res) => {
+    try {
+        const { username, password } = req.body;
+        const user = await User.findOne({ username });
 
-export {registerUser,loginUser}
+        if (!user) {
+            return res.status(404).json({ message: "Username not found" });
+        }
+
+        const pass = await bcrypt.compare(password, user.password);
+        if (!pass) {
+            return res.status(404).json({ message: "Password incorrect" });
+        }
+        
+        const token = jwt.sign(
+            { id: user._id, username: user.username },
+            process.env.SECRET_KEY
+        );
+
+        return res.status(200).json({
+            message: "Login successful",
+            user: { username: user.username, email: user.email },
+            token: token
+        });
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({
+            message: "Login failed. Please try again."
+        });
+    }
+};
+
+export { registerUser, loginUser };

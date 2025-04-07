@@ -27,6 +27,12 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 
+import { useDispatch } from "react-redux";
+
+import { logout } from "@/redux/slices/AuthSlice"
+
+
+
 
 
 export function NavUser({user}: {
@@ -38,11 +44,12 @@ export function NavUser({user}: {
   const { isMobile } = useSidebar()
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const avatar = 'account.png'
   
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    dispatch(logout());
     navigate('/login');
   }
 

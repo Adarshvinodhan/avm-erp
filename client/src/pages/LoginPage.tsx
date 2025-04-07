@@ -18,7 +18,8 @@ export default function LoginPage() {
     e.preventDefault();
     setError(null);
     try {
-      const response = await api.post("/login", { username, password });
+      console.log(username,password)
+      const response = await api.post("/login", { username: username, password: password });
       localStorage.setItem("token", response.data.token);
       const userData = {
         user: response.data.user,
@@ -35,8 +36,10 @@ export default function LoginPage() {
         navigate("/");
       }, 2000);
     } catch (err: any) {
-      console.error("Login failed:", err);
       setError(err.response?.data?.message || "Login failed");
+      toast.error(error, { duration: 1500 });
+      console.error("Login failed:", err);
+      
     }
   };
 
