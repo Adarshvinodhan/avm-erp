@@ -7,8 +7,8 @@ import {
   IconDatabase,
 } from "@tabler/icons-react"
 
-import { NavMain } from "@/layout/nav-main"
-import { NavUser } from "@/layout/nav-user"
+import { NavMain } from "@/layout/NavMain"
+import { NavUser } from "@/layout/NavUser"
 import {
   Sidebar,
   SidebarContent,
@@ -20,11 +20,6 @@ import {
 } from "@/components/ui/sidebar"
 
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   navMain: [
     {
       title: "Sales",
@@ -51,6 +46,10 @@ const data = {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+
+  const user = JSON.parse(localStorage.getItem('user') ?? '{}');
+  console.log(localStorage.getItem('user'))
+
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -72,7 +71,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        {user && <NavUser user={user} />}
       </SidebarFooter>
     </Sidebar>
   )

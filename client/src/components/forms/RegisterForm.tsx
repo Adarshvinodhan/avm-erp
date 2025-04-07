@@ -12,6 +12,8 @@ import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
 
 interface RegisterFormProps {
+  username: string;
+  setUsername: (username: string) => void;
   email: string;
   setEmail: (email: string) => void;
   password: string;
@@ -23,6 +25,8 @@ interface RegisterFormProps {
 }
 
 export function RegisterForm({
+  username,
+  setUsername,
   email,
   setEmail,
   password,
@@ -44,6 +48,17 @@ export function RegisterForm({
         <CardContent>
           <form onSubmit={handleSubmit}>
             <div className="grid gap-6">
+              <div className="grid gap-3">
+                <Label htmlFor="username">Username</Label>
+                <Input
+                  id="username"
+                  type="text"
+                  placeholder="Enter your username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                />
+              </div>
               <div className="grid gap-3">
                 <Label htmlFor="email">Email</Label>
                 <Input

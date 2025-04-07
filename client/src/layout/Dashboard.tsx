@@ -1,5 +1,5 @@
-import { AppSidebar } from "@/layout/app-sidebar"
-import { SiteHeader } from "@/layout/site-header"
+import { AppSidebar } from "@/layout/Sidebar"
+import { SiteHeader } from "@/layout/NavHeader"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 import { Outlet } from "react-router-dom"
 

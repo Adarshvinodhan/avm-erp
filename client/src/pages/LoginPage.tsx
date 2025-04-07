@@ -3,30 +3,37 @@ import { useNavigate } from "react-router-dom";
 import { GalleryVerticalEnd } from "lucide-react";
 import { LoginForm } from "@/components/forms/LoginForm";
 import api from "../axios/api.ts";
-import {toast} from "sonner"
+import { toast } from "sonner";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/redux/slices/AuthSlice.tsx";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     try {
-      const response = await api.post("/login", { email, password });
+      const response = await api.post("/login", { username, password });
       localStorage.setItem("token", response.data.token);
-      toast.success("Login successful",{
-        duration:1500,
+      const userData = {
+        user: response.data.user,
+      };
+      dispatch(setUser(userData), console.log("user stored successfully"));
+      toast.success("Login successful", {
+        duration: 1500,
         style: {
-          background: "white", 
+          background: "white",
           color: "black",
         },
       });
       setTimeout(() => {
         navigate("/");
-      },2000);
+      }, 2000);
     } catch (err: any) {
       console.error("Login failed:", err);
       setError(err.response?.data?.message || "Login failed");
@@ -44,9 +51,9 @@ export default function LoginPage() {
         </a>
         {/* Pass props to LoginForm */}
         <LoginForm
-          email={email}
+          username={username}
           password={password}
-          setEmail={setEmail}
+          setUsername={setUsername}
           setPassword={setPassword}
           error={error}
           handleSubmit={handleSubmit}

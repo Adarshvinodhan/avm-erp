@@ -5,17 +5,18 @@ import bcrypt from 'bcrypt';
 //Register User
 const registerUser = async(req,res)=>{
     try{
-        const {email,password} = req.body;
-        const existingUser = await User.findOne({email})
+        const {username,email,password} = req.body;
+        const existingUser = await User.findOne({$or:[{username},{email}]});
         if(existingUser){
-            if(existingUser.email === email){
+            if(existingUser && (existingUser.username === username || existingUser.email === email)){
                 return res.status(400).json({
-                    message:"email already exists"
+                    message:"username or email already Registered"
             })
         }}else{
             const hashedPassword = await bcrypt.hash(password,10)
             const newUser = new User(
                 {
+                 username,
                  email,
                  password:hashedPassword
                 })
@@ -23,7 +24,7 @@ const registerUser = async(req,res)=>{
 
             res.status(201).json({
                 message:"User created successfully",
-                user:{email}
+                user:{username,email}
             })
 
         }
@@ -42,11 +43,11 @@ const registerUser = async(req,res)=>{
 
 const loginUser = async(req,res)=>{
     try{
-        const {email,password} = req.body;
-        const user = await User.findOne({email})
+        const {username,password} = req.body;
+        const user = await User.findOne({username})
         if(!user){
             res.status(404).json({
-                message:"email not found"
+                message:"username not found"
             })
             const pass = await bcrypt.compare(password,user.password);
             if(!pass){
@@ -56,10 +57,10 @@ const loginUser = async(req,res)=>{
             }
         }
         else{
-            const token = jwt.sign({id:user._id,email:user.email},process.env.SECRET_KEY)
+            const token = jwt.sign({id:user._id,username:user.username},process.env.SECRET_KEY)
             res.status(200).json({
                 message:"login Successfull",
-                user:{email},
+                user:{username,email:user.email},
                 token:token
             })
         }

@@ -12,9 +12,9 @@ import { Label } from "@/components/ui/label";
 import { Link } from "react-router-dom";
 
 interface LoginFormProps {
-  email: string;
+  username: string;
   password: string;
-  setEmail: (email: string) => void;
+  setUsername: (username: string) => void;
   setPassword: (password: string) => void;
   error: string | null;
   handleSubmit: (e: React.FormEvent) => void;
@@ -22,9 +22,9 @@ interface LoginFormProps {
 }
 
 export function LoginForm({
-  email,
+  username,
   password,
-  setEmail,
+  setUsername,
   setPassword,
   error,
   handleSubmit,
@@ -42,13 +42,13 @@ export function LoginForm({
           <form onSubmit={handleSubmit}>
             <div className="grid gap-6">
               <div className="grid gap-3">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="username">Username</Label>
                 <Input
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  id="username"
+                  type="text"
+                  placeholder="Enter your username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                   required
                 />
               </div>

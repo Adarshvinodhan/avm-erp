@@ -4,13 +4,17 @@ import { GalleryVerticalEnd } from "lucide-react";
 import api from "../axios/api.ts";
 import { RegisterForm } from "@/components/forms/RegisterForm";
 import {toast} from 'sonner'
+import { useDispatch } from "react-redux";
+import { setUser } from "@/redux/slices/AuthSlice.tsx";
 
 export default function RegisterPage() {
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,10 +28,15 @@ export default function RegisterPage() {
     try {
       const response = await api.post("http://localhost:3000/register", {
         email,
+        username,
         password,
       });
       console.log("Registration successful:", response.data);
       localStorage.setItem("token", response.data.token);
+      const userData = {
+        user: response.data.user,
+      };
+      dispatch(setUser(userData), console.log(`user stored successfully${userData.user.username}`));
       toast.success("Account Created successful",{
         duration:1500,
         style: {
@@ -56,6 +65,8 @@ export default function RegisterPage() {
           Acme Inc.
         </a>
         <RegisterForm
+          username={username}
+          setUsername={setUsername}
           email={email}
           setEmail={setEmail}
           password={password}
