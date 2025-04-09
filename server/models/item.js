@@ -1,4 +1,4 @@
-import mongoose, { model } from "mongoose";
+import mongoose from "mongoose";
 
 const subCategorySchema = new mongoose.Schema({
     color: {
@@ -12,28 +12,30 @@ const subCategorySchema = new mongoose.Schema({
     },
     size: {
         type: String,
+    },
+    price: {
+        type: Number,
     }
 });
-
-const subCategory = mongoose.model('SubCategory', subCategorySchema);
 
 const itemSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
     },
+    brand: {
+        type: String,
+    },
     price: {
         type: Number,
     },
-    description: {
+    gst: {
         type: String,
     },
     subcategories: {
-        type: [subCategory],
+        type: [subCategorySchema],
     },
-    image: {
-        type: String,
-    }
+
 
 });
 
