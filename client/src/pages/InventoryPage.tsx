@@ -193,7 +193,7 @@ export default function InventoryPage() {
   );
 
   return (
-    <div className="max-w-6xl mx-auto p-4">
+    <div className="">
       <h1 className="text-2xl font-bold mb-4">Inventory</h1>
 
       <div className="flex items-center gap-4 mb-4">
@@ -212,7 +212,7 @@ export default function InventoryPage() {
       </div>
 
       <div className="border border-gray-200 rounded overflow-hidden">
-        <div className="max-h-[400px] overflow-y-auto">
+        <div className="overflow-y-auto">
           <Table>
             <TableHeader className="bg-gray-100 sticky top-0 z-10">
               <TableRow>
