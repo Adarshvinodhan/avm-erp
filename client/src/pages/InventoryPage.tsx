@@ -212,7 +212,7 @@ export default function InventoryPage() {
       </div>
 
       <div className="border border-gray-200 rounded overflow-hidden">
-        <div className="max-h-[400px] overflow-y-auto">
+        <div className="sm:max-h-[400px] max-h-[70vh] overflow-y-auto">
           <Table>
             <TableHeader className="bg-gray-100 sticky top-0 z-10">
               <TableRow>
