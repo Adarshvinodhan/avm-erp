@@ -3,7 +3,16 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import ItemFormPopup from "../components/forms/ItemForm";
-import SubcategoryTablePopup from "./ItemPage"; // Make sure this file is created as per earlier instructions
+import SubcategoryTablePopup from "./ItemDetailPopup";
+
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+} from "@/components/ui/table";
 
 const initialItems = [
   {
@@ -106,7 +115,7 @@ const initialItems = [
     subcategories: [{ color: "Green", quantity: 40, model: "812", size: "6-in-1", price: 350 }],
   },
   {
-    id:13,
+    id: 13,
     name: "Wrench",
     brand: "JK Tools",
     price: 280,
@@ -117,7 +126,7 @@ const initialItems = [
     ],
   },
   {
-    id:14,
+    id: 14,
     name: "Measuring Tape",
     brand: "Freemans",
     price: 150,
@@ -125,7 +134,7 @@ const initialItems = [
     subcategories: [{ color: "Yellow", quantity: 50, model: "F5M", size: "5m", price: 150 }],
   },
   {
-    id:15,
+    id: 15,
     name: "Pliers",
     brand: "Taparia",
     price: 220,
@@ -133,7 +142,7 @@ const initialItems = [
     subcategories: [{ color: "Red", quantity: 40, model: "P1620", size: '6"', price: 220 }],
   },
   {
-    id:16,
+    id: 16,
     name: "Adjustable Spanner",
     brand: "Taparia",
     price: 320,
@@ -141,7 +150,7 @@ const initialItems = [
     subcategories: [{ color: "Metallic", quantity: 35, model: "1170-8", size: '8"', price: 320 }],
   },
   {
-    id:17,
+    id: 17,
     name: "Chisel",
     brand: "Stanley",
     price: 180,
@@ -149,7 +158,7 @@ const initialItems = [
     subcategories: [{ color: "Yellow", quantity: 60, model: "SC24", size: '1"', price: 180 }],
   },
   {
-    id:18,
+    id: 18,
     name: "Toolbox",
     brand: "Bosch",
     price: 1200,
@@ -202,43 +211,46 @@ export default function InventoryPage() {
         </Button>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="w-full text-sm text-left border border-gray-200">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="px-4 py-2 border-b">#</th>
-              <th className="px-4 py-2 border-b">Name</th>
-              <th className="px-4 py-2 border-b">Brand</th>
-              <th className="px-4 py-2 border-b">Price</th>
-              <th className="px-4 py-2 border-b">GST</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredItems.map((item) => (
-              <tr
-                key={item.id}
-                onClick={() => {
-                  setSelectedItem(item);
-                  setShowSubPopup(true);
-                }}
-                className="hover:bg-gray-50 cursor-pointer"
-              >
-                <td className="px-4 py-2 border-b">{item.id}</td>
-                <td className="px-4 py-2 border-b">{item.name}</td>
-                <td className="px-4 py-2 border-b">{item.brand}</td>
-                <td className="px-4 py-2 border-b">₹{item.price}</td>
-                <td className="px-4 py-2 border-b">{item.gst}</td>
-              </tr>
-            ))}
-            {filteredItems.length === 0 && (
-              <tr>
-                <td colSpan={5} className="px-4 py-2 text-center text-gray-500">
-                  No items found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+      <div className="border border-gray-200 rounded overflow-hidden">
+        <div className="max-h-[400px] overflow-y-auto">
+          <Table>
+            <TableHeader className="bg-gray-100 sticky top-0 z-10">
+              <TableRow>
+                <TableHead>#</TableHead>
+                <TableHead>Name</TableHead>
+                <TableHead>Brand</TableHead>
+                <TableHead>Price</TableHead>
+                <TableHead>GST</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {filteredItems.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={5} className="text-center text-gray-500">
+                    No items found.
+                  </TableCell>
+                </TableRow>
+              ) : (
+                filteredItems.map((item) => (
+                  <TableRow
+                    key={item.id}
+                    onClick={() => {
+                      setSelectedItem(item);
+                      setShowSubPopup(true);
+                    }}
+                    className="hover:bg-gray-50 cursor-pointer"
+                  >
+                    <TableCell>{item.id}</TableCell>
+                    <TableCell>{item.name}</TableCell>
+                    <TableCell>{item.brand}</TableCell>
+                    <TableCell>₹{item.price}</TableCell>
+                    <TableCell>{item.gst}</TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </div>
       </div>
 
       {/* Subcategory Table as Popup */}
@@ -247,7 +259,10 @@ export default function InventoryPage() {
           open={showSubPopup}
           onClose={() => setShowSubPopup(false)}
           itemName={selectedItem.name}
-          subcategories={selectedItem.subcategories as { id: number; model: string; color: string; size: string; price: number; quantity: number; }[]}
+          subcategories={selectedItem.subcategories.map((sub, idx) => ({
+            id: idx + 1,
+            ...sub,
+          }))}
         />
       )}
 
