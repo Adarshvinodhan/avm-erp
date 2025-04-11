@@ -21,7 +21,7 @@ function App() {
                 <Route path="/register" element={<RegisterPage />} />
 
                 <Route element={<Dashboard />}>
-                    {/* <Route element={<AuthRoutes />}> */}
+                    <Route element={<AuthRoutes />}>
 
                         <Route path="/" element={<HomePage />} />
                         <Route path="/sale" element={<SalePage />} />
@@ -30,7 +30,7 @@ function App() {
                         <Route path="/report" element={<ReportsPage />} />
                         
 
-                    {/* </Route> */}
+                    </Route>
                 </Route>
             </Routes>
         </BrowserRouter>
