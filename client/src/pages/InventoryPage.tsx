@@ -247,7 +247,7 @@ export default function InventoryPage() {
           open={showSubPopup}
           onClose={() => setShowSubPopup(false)}
           itemName={selectedItem.name}
-          subcategories={selectedItem.subcategories}
+          subcategories={selectedItem.subcategories as { id: number; model: string; color: string; size: string; price: number; quantity: number; }[]}
         />
       )}
 
