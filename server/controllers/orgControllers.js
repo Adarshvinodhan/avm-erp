@@ -8,7 +8,8 @@ const createOrg = async(req,res)=>{
             return res.json({message:"Company exists already"})
         }
         else{
-            const newOrg = New 
+            const newOrg = new Org(req.body).save();
+            res.status(200).json({message:"Company created successfully"})
         }
     }
     catch(err){
